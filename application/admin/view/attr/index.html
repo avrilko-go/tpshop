@@ -1,0 +1,82 @@
+{extend name="common/app" /}
+
+{block name="title"}商品属性列表{/block}
+
+{block name="content"}
+<div class="page-content">
+    <!-- Page Breadcrumb -->
+    <div class="page-breadcrumbs">
+        <ul class="breadcrumb">
+            <li>
+                <a href="{:url('Index/index')}">系统</a>
+            </li>
+            <li class="active">商品属性管理</li>
+        </ul>
+    </div>
+    <!-- /Page Breadcrumb -->
+
+    <!-- Page Body -->
+    <div class="page-body">
+
+        <button type="button" tooltip="添加商品属性" class="btn btn-sm btn-azure btn-addon" onClick="javascript:window.location.href = '/admin/attr/create'"> <i class="fa fa-plus"></i> Add
+        </button>
+        <div class="row">
+            <div class="col-lg-12 col-sm-12 col-xs-12">
+                <div class="widget">
+                    <div class="widget-body">
+                        <div class="flip-scroll">
+                            <table class="table table-bordered table-hover">
+                                <thead class="">
+                                <tr>
+                                    <th class="text-center" width="8%">ID</th>
+                                    <th>属性名称</th>
+                                    <th>属性类型</th>
+                                    <th>所属类型</th>
+                                    <th>值</th>
+                                    <th class="text-center" width="16%">操作</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {volist name="attrs" id="attr"}
+                                <tr>
+                                    <td align="center">{$attr.id}</td>
+                                    <td>{$attr.attr_name}</td>
+                                    <td>{if condition="$attr['attr_type'] eq 1"}单选{else /}唯一{/if}</td>
+                                    <td>{$attr.type.type_name}</td>
+                                    <td>{$attr.attr_values}</td>
+                                    <td align="center">
+                                        <a href="/admin/attr/{$attr.id}/edit" class="btn btn-primary btn-sm shiny">
+                                            <i class="fa fa-edit"></i> 编辑
+                                        </a>
+                                        <a href="#" onClick="disp_confirm('{$attr["id"]}')" class="btn btn-danger btn-sm shiny" >
+                                        <i class="fa fa-trash-o"></i> 删除
+                                        </a>
+                                    </td>
+                                </tr>
+                                {/volist}
+                                </tbody>
+                            </table>
+                        </div>
+
+                        {volist name="attrs" id="attr"}
+                        <form style="display: none" id="deleteForm{$attr['id']}" action="/admin/attr/{$attr['id']}" method="post">
+                            <input type="hidden" name="_method" value="delete" />
+                            </a>
+                        </form>
+                        {/volist}
+
+                        <div style="padding-top:10px; text-align:right;">
+                            {$attrs|raw}
+                        </div>
+                        <div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <!-- /Page Body -->
+</div>
+
+{/block}

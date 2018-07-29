@@ -1,0 +1,75 @@
+<div class="categorys {if !isset($show_category)}site-mast{/if}">
+    <div class="categorys-type"><a href="#" target="_blank">全部商品分类</a></div>
+    <div class="categorys-tab-content">
+        <div class="categorys-items" id="cata-nav">
+            {volist name="allCategoryInfo" id="category"}
+            <div class="categorys-item">
+                <div class="item item-content" style="display: flex">
+                    <i class="iconfont {$category.iconfont}"></i>
+                    <div class="categorys-title">
+                        <strong>
+                            <a href="/category/{$category.id}" target="_blank">{$category.cate_name}</a>
+                        </strong>
+                        <span>
+                            {volist name="category.child" id="vo"}
+                            <a href="/category/{$vo.id}" target="_blank">{$vo.cate_name}</a>
+                            {/volist}
+                        </span>
+                    </div>
+                </div>
+
+                <div class="categorys-items-layer"  >
+                    <div class="cate-layer-con clearfix" >
+                        <div class="cate-layer-left">
+                            <div class="cate_channel">
+                                {volist name="category.categoryWords" id="categoryWord"}
+                                <a href="{$categoryWord.link_url}" target="_blank">{$categoryWord.word}</a>
+                                {/volist}
+                            </div>
+                            <div class="cate_detail">
+                                {volist name="category.child" id="category2"}
+                                <dl class="dl_fore1">
+                                    <dt><a href="/category/{$category2.id}" target="_blank">{$category2.cate_name}</a></dt>
+                                    <dd>
+                                        {volist name="category2.child" id="category3"}
+                                        <a href="/category/{$category3.id}" target="_blank">{$category3.cate_name}</a>
+                                        {/volist}
+                                    </dd>
+                                </dl>
+                                {/volist}
+                            </div>
+                        </div>
+                        {volist name="category.categoryBrands" id="categoryBrand"}
+                        <div class="cate-layer-rihgt" >
+                            <div class="cate-brand">
+                                {volist name="categoryBrand.child" id="child"}
+                                <div class="img">
+                                    <a href="{$child.brand_url}" target="_blank" ><img src="{$child.brand_img}"></a>
+                                </div>
+                                {/volist}
+                            </div>
+                            <div class="cate-promotion">
+                                <a href="{$categoryBrand.pro_url}" target="_blank">
+                                    <img width="199" height="97" src="{$categoryBrand.pro_img}">
+                                </a>
+                            </div>
+                        </div>
+                        {/volist}
+
+                    </div>
+                </div>
+                <div class="clear"></div>
+            </div>
+            {/volist}
+        </div>
+    </div>
+</div>
+
+<div class="nav-main">
+    <ul class="navitems">
+        <li><a href="/" class="curr">首页</a></li>
+        {volist name="navData.mid" id="vo"}
+        <li><a {if condition="$vo['open'] eq 1 "}target="_blank"{/if}  href="{$vo.nav_url}">{$vo.nav_name}</a></li>
+        {/volist}
+    </ul>
+</div>

@@ -1,0 +1,102 @@
+{extend name="common/app" /}
+
+{block name="title"}编辑品牌{/block}
+
+{block name="content"}
+
+<div class="page-content">
+    <div class="page-breadcrumbs">
+        <ul class="breadcrumb">
+            <li>
+                <a href="{:url('Index/index')}">系统</a>
+            </li>
+            <li>
+                <a href="/admin/brand">品牌管理</a>
+            </li>
+            <li class="active">编辑品牌</li>
+        </ul>
+    </div>
+
+    <!-- Page Body -->
+    <div class="page-body">
+
+        <div class="row">
+            <div class="col-lg-12 col-sm-12 col-xs-12">
+                <div class="widget">
+                    <div class="widget-header bordered-bottom bordered-blue">
+                        <span class="widget-caption">编辑品牌</span>
+                    </div>
+                    <div class="widget-body">
+                        <div id="horizontal-form">
+                            <form class="form-horizontal" role="form" action="/admin/brand/{$brand['id']}" method="post" enctype="multipart/form-data">
+                                <input type="hidden" name="_method" value="put">
+
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label no-padding-right">品牌名称</label>
+                                    <div class="col-sm-6">
+                                        <input class="form-control" placeholder="" name="brand_name" required="" type="text" value="{$brand.brand_name}">
+                                    </div>
+                                    <p class="help-block col-sm-4 red">* 必填</p>
+                                </div>
+                                <div class="form-group">
+                                    <label  class="col-sm-2 control-label no-padding-right">品牌网址</label>
+                                    <div class="col-sm-6">
+                                        <input class="form-control" placeholder="" name="brand_url" type="text" value="{$brand.brand_url}">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label  class="col-sm-2 control-label no-padding-right">品牌logo</label>
+                                    <div class="col-sm-6">
+                                        <input placeholder="" name="brand_img" type="file">
+                                        {if condition=" $brand['brand_img'] "}
+                                        <img src="{$brand.brand_img}" alt="" style="width: 70px;height: 70px">
+                                        {/if}
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label  class="col-sm-2 control-label no-padding-right">品牌描述</label>
+                                    <div class="col-sm-6">
+                                        <textarea class="form-control" name="brand_description">{$brand.brand_description}</textarea>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label no-padding-right">品牌状态</label>
+                                    <div class="col-sm-6">
+                                        <div class="radio" style="float:left; padding-right:10px;">
+                                            <label>
+                                                <input name="status" value="1" class="colored-blue"
+                                                       {if condition="$brand['status'] eq 1 "}
+                                                       checked="checked"
+                                                       {/if}
+                                                       type="radio">
+                                                <span class="text">显示</span>
+                                            </label>
+                                        </div>
+                                        <div class="radio" style="float:left;">
+                                            <label>
+                                                <input name="status" value="0" class="colored-blue"
+                                                       {if condition="$brand['status'] eq 0 "}
+                                                       checked="checked"
+                                                       {/if}
+                                                       type="radio">
+                                                <span class="text">隐藏</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-offset-2 col-sm-10">
+                                        <button type="submit" class="btn btn-default">保存信息</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+{/block}

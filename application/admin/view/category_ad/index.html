@@ -1,0 +1,83 @@
+{extend name="common/app" /}
+
+{block name="title"}关联左图列表{/block}
+
+{block name="content"}
+<div class="page-content">
+    <!-- Page Breadcrumb -->
+    <div class="page-breadcrumbs">
+        <ul class="breadcrumb">
+            <li>
+                <a href="{:url('Index/index')}">系统</a>
+            </li>
+            <li class="active">关联左图管理</li>
+        </ul>
+    </div>
+    <!-- /Page Breadcrumb -->
+
+    <!-- Page Body -->
+    <div class="page-body">
+
+        <button type="button"  class="btn btn-sm btn-azure btn-addon" onClick="javascript:window.location.href = '/admin/category_ad/create'"> <i class="fa fa-plus"></i> Add
+        </button>
+        <div class="row">
+            <div class="col-lg-12 col-sm-12 col-xs-12">
+                <div class="widget">
+                    <div class="widget-body">
+                        <div class="flip-scroll">
+                            <table class="table table-bordered table-hover">
+                                <thead class="">
+                                <tr>
+                                    <th class="text-center" width="8%">ID</th>
+                                    <th class="text-center">位置</th>
+                                    <th>图片</th>
+                                    <th>地址</th>
+                                    <th class="text-center">关联栏目</th>
+                                    <th class="text-center" width="14%">操作</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {volist name="categoryAds" id="ca"}
+                                <tr>
+                                    <td align="center">{$ca.id}</td>
+                                    <td align="center">{$ca.position}</td>
+                                    <td align="center">{if condition="$ca['img_src']"} <img src="{$ca.img_src}" height="30"> {else /} 暂无图片 {/if}</td>
+                                    <td><a href="{$ca.link_url}" target="_blank">{$ca.link_url}</a></td>
+                                    <td align="center">
+                                        {$ca.category.cate_name}
+                                    </td>
+                                    <td align="center">
+                                        <a href="/admin/category_ad/{$ca.id}/edit" class="btn btn-primary btn-sm shiny">
+                                            <i class="fa fa-edit"></i> 编辑
+                                        </a>
+
+                                        <a href="#" onClick="disp_confirm('{$ca["id"]}')" class="btn btn-danger btn-sm shiny" >
+                                        <i class="fa fa-trash-o"></i> 删除
+                                        </a>
+
+                                    </td>
+                                </tr>
+                                {/volist}
+                                </tbody>
+                            </table>
+                        </div>
+                        {volist name="categoryAds" id="categoryAd"}
+                        <form style="display: none" id="deleteForm{$categoryAd['id']}" action="/admin/category_ad/{$categoryAd['id']}" method="post">
+                            <input type="hidden" name="_method" value="delete" />
+                            </a>
+                        </form>
+                        {/volist}
+                        <div style="padding-top:10px; text-align:right;">
+                            {$categoryAds|raw}
+                        </div>
+                        <div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <!-- /Page Body -->
+</div>
+{/block}

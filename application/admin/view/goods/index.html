@@ -1,0 +1,112 @@
+{extend name="common/app" /}
+
+{block name="title"}商品列表{/block}
+
+{block name="content"}
+<div class="page-content">
+    <!-- Page Breadcrumb -->
+    <div class="page-breadcrumbs">
+        <ul class="breadcrumb">
+            <li>
+                <a href="{:url('Index/index')}">系统</a>
+            </li>
+            <li class="active">商品管理</li>
+        </ul>
+    </div>
+    <!-- /Page Breadcrumb -->
+
+    <!-- Page Body -->
+    <div class="page-body">
+
+        <button type="button" tooltip="添加商品类型" class="btn btn-sm btn-azure btn-addon" onClick="javascript:window.location.href = '/admin/goods/create'"> <i class="fa fa-plus"></i> Add
+        </button>
+        <div class="row">
+            <div class="col-lg-12 col-sm-12 col-xs-12">
+                <div class="widget">
+                    <div class="widget-body">
+                        <div class="flip-scroll">
+                            <table class="table table-bordered table-hover">
+                                <thead class="">
+                                <tr>
+                                    <th class="text-center" width="4%">ID</th>
+                                    <th>名称</th>
+                                    <th width="10%">编号</th>
+                                    <th width="6%">缩略图</th>
+                                    <th width="6%">市场价</th>
+                                    <th width="6%">本店价</th>
+                                    <th width="4%">上架</th>
+                                    <th width="6%">栏目</th>
+                                    <th width="6%">品牌</th>
+                                    <th width="6%">类型</th>
+                                    <th width="4%">重量</th>
+                                    <th width="4%">单位</th>
+                                    <th width="5%">库存量</th>
+                                    <th class="text-center" width="20%">操作</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {volist name="goodes" id="goods"}
+                                <tr>
+                                    <td align="center">{$goods.id}</td>
+                                    <td>{$goods.goods_name|cut_str=###,13}</td>
+                                    <td>{$goods.goods_code}</td>
+                                    <td>{if condition="$goods['sm_thumb'] neq ''"}<img src="{$goods.sm_thumb}" height="30">{else /}暂无主图{/if}</td>
+                                    <td>{$goods.markte_price}</td>
+                                    <td>{$goods.shop_price}</td>
+                                    <td>{if condition="$goods['on_sale'] eq 1"}已上架{else /}未上架{/if}</td>
+                                    <td>{$goods.category.cate_name}</td>
+                                    <td>{if condition="$goods.brand.brand_name "}{$goods.brand.brand_name}{else /}未设置{/if}</td>
+                                    <td>{if condition="$goods.type.type_name"}{$goods.type.type_name}{else /}未设置{/if}</td>
+                                    <td>{$goods.goods_weight}</td>
+                                    <td>{$goods.weight_unit}</td>
+                                    <td>
+                                        <?php
+                                            if(count($goods->product)){
+                                                echo $goods->product[0]->sumProduct;
+                                            }else{
+                                                echo '无';
+                                            }
+                                        ?>
+                                    </td>
+
+                                    <td align="center">
+                                        <a href="/admin/goods/product?id={$goods['id']}" class="btn btn-darkorange btn-sm shiny">
+                                            <i class="fa fa-list"></i> 库存
+                                        </a>
+                                        <a href="/admin/goods/{$goods['id']}/edit" class="btn btn-primary btn-sm shiny">
+                                            <i class="fa fa-edit"></i> 编辑
+                                        </a>
+
+                                        <a href="#" onClick="disp_confirm('{$goods["id"]}')" class="btn btn-danger btn-sm shiny" >
+                                        <i class="fa fa-trash-o"></i> 删除
+                                        </a>
+
+                                    </td>
+                                </tr>
+                                {/volist}
+                                </tbody>
+                            </table>
+                        </div>
+
+                        {volist name="goodes" id="good"}
+                        <form style="display: none" id="deleteForm{$good['id']}" action="/admin/goods/{$good['id']}" method="post">
+                            <input type="hidden" name="_method" value="delete" />
+                            </a>
+                        </form>
+                        {/volist}
+
+                        <div style="padding-top:10px; text-align:right;">
+                            {$goodes|raw}
+                        </div>
+                        <div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <!-- /Page Body -->
+</div>
+
+{/block}

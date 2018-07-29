@@ -1,0 +1,83 @@
+{extend name="common/app" /}
+
+{block name="title"}图片列表{/block}
+
+{block name="content"}
+<div class="page-content">
+    <!-- Page Breadcrumb -->
+    <div class="page-breadcrumbs">
+        <ul class="breadcrumb">
+            <li>
+                <a href="{:url('Index/index')}">系统</a>
+            </li>
+            <li class="active">图片管理</li>
+        </ul>
+    </div>
+    <!-- /Page Breadcrumb -->
+
+    <!-- Page Body -->
+    <div class="page-body">
+        <div class="row">
+            <div class="col-lg-12 col-sm-12 col-xs-12">
+                <div class="widget">
+                    <div class="widget-body">
+                        <div class="flip-scroll">
+                            <table class="table table-bordered table-hover">
+                                <thead class="">
+                                <tr>
+                                    <th>图片</th>
+                                    <th class="text-center" width="10%">操作</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {volist name="imgs" id="img"}
+                                <tr>
+                                    <th><img height="40" src="{$img}"></th>
+                                    <td align="center">
+                                        <a href="#" onclick="return delimg(this);" id="{$img}" class="btn btn-danger btn-sm shiny">
+                                            <i class="fa fa-trash-o"></i> 删除
+                                        </a>
+                                    </td>
+                                </tr>
+                                {/volist}
+                                </tbody>
+                            </table>
+                            <script type="text/javascript">
+                                function delimg(o){
+                                    if(!confirm('确定删除本图片吗？')){
+                                        return false;
+                                    }
+                                    var url="/admin/article/image";
+                                    var imgsrc=$(o).attr('id');
+                                    $.ajax({
+                                        url : url,
+                                        type : "delete",
+                                        dataType : "json",
+                                        data : {imgsrc:imgsrc},
+                                        success : function(data) {
+                                            if(data==1){
+                                                $(o).parent().parent().remove();
+                                                layer.alert('删除图片成功', {icon: 6});
+                                            }else if(data==2){
+                                                layer.alert('删除图片失败!', {icon: 5});
+                                            }else{
+                                                layer.alert('图片不存在!', {icon: 5});
+                                            }
+                                        }
+                                    });
+                                }
+                            </script>
+                        </div>
+                        <div style="padding-top:10px; text-align:right;">
+                        </div>
+                        <div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <!-- /Page Body -->
+</div>
+{/block}

@@ -1,0 +1,133 @@
+{extend name="common/app" /}
+
+{block name="title"}文章分类列表{/block}
+
+{block name="content"}
+<!-- Page Content -->
+<div class="page-content">
+    <!-- Page Breadcrumb -->
+    <div class="page-breadcrumbs">
+        <ul class="breadcrumb">
+            <li>
+                <a href="{:url('Index/index')}">系统</a>
+            </li>
+            <li class="active">分类管理</li>
+        </ul>
+    </div>
+    <!-- /Page Breadcrumb -->
+
+    <!-- Page Body -->
+    <div class="page-body">
+
+        <button type="button" tooltip="添加分类" class="btn btn-sm btn-azure btn-addon" onClick="javascript:window.location.href = '/admin/cate/create'"> <i class="fa fa-plus"></i> Add
+        </button>
+        <div class="row">
+            <div class="col-lg-12 col-sm-12 col-xs-12">
+                <div class="widget">
+                    <div class="widget-body">
+                        <div class="flip-scroll">
+                            <form action="" method="post">
+                                <table class="table table-bordered table-hover">
+                                    <thead class="">
+                                    <tr>
+                                        <th class="text-center" width="8%">ID</th>
+                                        <th class="text-center">分类名称</th>
+                                        <th class="text-center" width="10%">类型</th>
+                                        <th width="8%">显示到导航栏</th>
+                                        <th class="text-center" width="8%">排序</th>
+                                        <th class="text-center" width="14%">操作</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {volist name="caties" id="cate"}
+                                    <tr>
+                                        <td align="center">{$cate.id}</td>
+                                        <td><?php echo str_repeat('-', $cate['level']*8)?>{$cate.cate_name}</td>
+                                        <td align="center">
+                                            {if condition="$cate['cate_type'] eq 1"}
+                                            系统分类
+                                            {elseif condition="$cate['cate_type'] eq 2" /}
+                                            帮助分类
+                                            {elseif condition="$cate['cate_type'] eq 3" /}
+                                            网店帮助
+                                            {elseif condition="$cate['cate_type'] eq 4" /}
+                                            网店信息
+                                            {else /}
+                                            普通分类
+                                            {/if}
+                                        </td>
+                                        <td align="center">
+                                            {if condition="$cate['show_nav'] eq 1"}
+                                            <img src="/static/admin/images/right.png" height="30">
+                                            {else /}
+                                            <img src="/static/admin/images/wrong.png" height="25">
+                                            {/if}
+                                        </td>
+                                        <td align="center">
+                                            <input class="sortInput" attrid="{$cate.id}" type="text" style="width:60px; text-align:center;"  value="{$cate.sort}" />
+                                        </td>
+                                        <td align="center">
+                                            <a href="/admin/cate/{$cate['id']}/edit" class="btn btn-primary btn-sm shiny">
+                                                <i class="fa fa-edit"></i> 编辑
+                                            </a>
+                                            {notin name="$cate['id']" value="1,2,3"}
+                                            <a href="#" onClick="disp_confirm('{$cate["id"]}')" class="btn btn-danger btn-sm shiny" >
+                                            <i class="fa fa-trash-o"></i> 删除
+                                            </a>
+
+                                            {else /}
+                                            <a href="#" disabled="disabled" class="btn btn-danger btn-sm shiny">
+                                                <i class="fa fa-trash-o"></i> 删除
+                                            </a>
+                                            {/notin}
+                                        </td>
+                                    </tr>
+                                    {/volist}
+                                    </tbody>
+                                </table>
+                            </form>
+                        </div>
+
+                        {volist name="caties" id="cate"}
+                        <form style="display: none" id="deleteForm{$cate['id']}" action="/admin/cate/{$cate['id']}" method="post">
+                            <input type="hidden" name="_method" value="delete" />
+                            </a>
+                        </form>
+                        {/volist}
+
+                        <div style="padding-top:10px; text-align:right;">
+                            <!-- 分页 -->
+                        </div>
+                        <div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <!-- /Page Body -->
+</div>
+{/block}
+
+
+{block name="script"}
+<script>
+$('.sortInput').blur(function () {
+    var id=$(this).attr('attrid')
+    var sort=$(this).val()
+    var url='/admin/cate/'+id+'/sort'
+    $.post(url,{sort:sort},function (res) {
+        if(res.status==0){
+            layer.alert(res.msg, {icon: 5});
+        }else {
+            layer.alert(res.msg, {icon: 6});
+            window.location.reload();
+        }
+    },'json')
+})
+
+
+</script>
+
+{/block}

@@ -1,0 +1,77 @@
+{extend name="common/app" /}
+
+{block name="title"}推荐位列表{/block}
+
+{block name="content"}
+<div class="page-content">
+    <!-- Page Breadcrumb -->
+    <div class="page-breadcrumbs">
+        <ul class="breadcrumb">
+            <li>
+                <a href="{:url('Index/index')}">系统</a>
+            </li>
+            <li class="active">推荐位管理</li>
+        </ul>
+    </div>
+    <!-- /Page Breadcrumb -->
+
+    <!-- Page Body -->
+    <div class="page-body">
+
+        <button type="button" tooltip="添加推荐位" class="btn btn-sm btn-azure btn-addon" onClick="javascript:window.location.href = '/admin/recpos/create'"> <i class="fa fa-plus"></i> Add
+        </button>
+        <div class="row">
+            <div class="col-lg-12 col-sm-12 col-xs-12">
+                <div class="widget">
+                    <div class="widget-body">
+                        <div class="flip-scroll">
+                            <table class="table table-bordered table-hover">
+                                <thead class="">
+                                <tr>
+                                    <th class="text-center" width="8%">ID</th>
+                                    <th>推荐位名称</th>
+                                    <th>推荐位类型</th>
+                                    <th class="text-center" width="16%">操作</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {volist name="recpoes" id="recpos"}
+                                <tr>
+                                    <td align="center">{$recpos.id}</td>
+                                    <td>{$recpos.rec_name}</td>
+                                    <td>{if condition="$recpos['rec_type'] eq 1"}商品推荐位{else /}分类推荐位{/if}</td>
+                                    <td align="center">
+                                        <a href="/admin/recpos/{$recpos.id}/edit" class="btn btn-primary btn-sm shiny">
+                                            <i class="fa fa-edit"></i> 编辑
+                                        </a>
+                                        <a href="#" onClick="disp_confirm('{$recpos["id"]}')" class="btn btn-danger btn-sm shiny" >
+                                        <i class="fa fa-trash-o"></i> 删除
+                                        </a>
+                                    </td>
+                                </tr>
+                                {/volist}
+                                </tbody>
+                            </table>
+                        </div>
+                        {volist name="recpoes" id="recpos"}
+                        <form style="display: none" id="deleteForm{$recpos['id']}" action="/admin/recpos/{$recpos['id']}" method="post">
+                            <input type="hidden" name="_method" value="delete" />
+                            </a>
+                        </form>
+                        {/volist}
+
+                        <div style="padding-top:10px; text-align:right;">
+                            {$recpoes|raw}
+                        </div>
+                        <div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <!-- /Page Body -->
+</div>
+
+{/block}

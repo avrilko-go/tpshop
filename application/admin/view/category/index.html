@@ -1,0 +1,113 @@
+{extend name="common/app" /}
+
+{block name="title"}商品分类列表{/block}
+
+{block name="content"}
+<div class="page-content">
+    <!-- Page Breadcrumb -->
+    <div class="page-breadcrumbs">
+        <ul class="breadcrumb">
+            <li>
+                <a href="{:url('Index/index')}">系统</a>
+            </li>
+            <li class="active">商品分类管理</li>
+        </ul>
+    </div>
+    <!-- /Page Breadcrumb -->
+
+    <!-- Page Body -->
+    <div class="page-body">
+
+        <button type="button" tooltip="添加分类" class="btn btn-sm btn-azure btn-addon" onClick="javascript:window.location.href = '/admin/category/create'"> <i class="fa fa-plus"></i> Add
+        </button>
+        <div class="row">
+            <div class="col-lg-12 col-sm-12 col-xs-12">
+                <div class="widget">
+                    <div class="widget-body">
+                        <div class="flip-scroll">
+                            <form action="" method="post">
+                                <table class="table table-bordered table-hover">
+                                    <thead class="">
+                                    <tr>
+                                        <th class="text-center" width="8%">ID</th>
+                                        <th class="text-center">商品分类名称</th>
+                                        <th width="8%">显示到导航栏</th>
+                                        <th class="text-center" width="8%">排序</th>
+                                        <th class="text-center" width="14%">操作</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {volist name="categories" id="cate"}
+                                    <tr>
+                                        <td align="center">{$cate.id}</td>
+                                        <td><?php echo str_repeat('-', $cate['level']*8)?>{$cate.cate_name}</td>
+                                        <td align="center">
+                                            {if condition="$cate['show_cate'] eq 1"}
+                                            <img src="/static/admin/images/right.png" height="30">
+                                            {else /}
+                                            <img src="/static/admin/images/wrong.png" height="25">
+                                            {/if}
+                                        </td>
+                                        <td align="center">
+                                            <input class="sortInput" attrid="{$cate.id}" type="text" style="width:60px; text-align:center;"  value="{$cate.sort}" />
+                                        </td>
+                                        <td align="center">
+                                            <a href="/admin/category/{$cate.id}/edit" class="btn btn-primary btn-sm shiny">
+                                                <i class="fa fa-edit"></i> 编辑
+                                            </a>
+
+                                            <a href="#" onClick="disp_confirm('{$cate["id"]}')" class="btn btn-danger btn-sm shiny" >
+                                            <i class="fa fa-trash-o"></i> 删除
+                                            </a>
+
+                                        </td>
+                                    </tr>
+                                    {/volist}
+                                    </tbody>
+                                </table>
+                            </form>
+                        </div>
+                        {volist name="categories" id="category"}
+                        <form style="display: none" id="deleteForm{$category['id']}" action="/admin/category/{$category['id']}" method="post">
+                            <input type="hidden" name="_method" value="delete" />
+                            </a>
+                        </form>
+                        {/volist}
+
+                        <div style="padding-top:10px; text-align:right;">
+                            <!-- 分页 -->
+                        </div>
+                        <div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <!-- /Page Body -->
+</div>
+{/block}
+
+{block name="script"}
+<script>
+    $('.sortInput').blur(function () {
+        var id=$(this).attr('attrid')
+        var sort=$(this).val()
+        var url='/admin/category/'+id+'/sort'
+        $.post(url,{sort:sort},function (res) {
+            if(res.status==0){
+                layer.alert(res.msg, {icon: 5});
+            }else {
+                layer.alert(res.msg, {icon: 6});
+                window.location.reload();
+            }
+        },'json')
+    })
+
+
+</script>
+
+{/block}
+
+

@@ -1,0 +1,83 @@
+{extend name="common/app" /}
+
+{block name="title"}增加推荐词关联{/block}
+
+{block name="content"}
+<div class="page-content">
+    <!-- Page Breadcrumb -->
+    <div class="page-breadcrumbs">
+        <ul class="breadcrumb">
+            <li>
+                <a href="{:url('Index/index')}">系统</a>
+            </li>
+            <li class="active">关联品牌管理</li>
+        </ul>
+    </div>
+    <!-- /Page Breadcrumb -->
+
+    <!-- Page Body -->
+    <div class="page-body">
+
+        <button type="button" tooltip="添加链接" class="btn btn-sm btn-azure btn-addon" onClick="javascript:window.location.href = '/admin/category_brands/create'"> <i class="fa fa-plus"></i> Add
+        </button>
+        <div class="row">
+            <div class="col-lg-12 col-sm-12 col-xs-12">
+                <div class="widget">
+                    <div class="widget-body">
+                        <div class="flip-scroll">
+                            <table class="table table-bordered table-hover">
+                                <thead class="">
+                                <tr>
+                                    <th class="text-center" width="8%">ID</th>
+                                    <th class="text-center">关联品牌</th>
+                                    <th>推广图</th>
+                                    <th>推广图地址</th>
+                                    <th class="text-center">关联栏目</th>
+                                    <th class="text-center" width="14%">操作</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {volist name="categoryBrands" id="cb"}
+                                <tr>
+                                    <td align="center">{$cb.id}</td>
+                                    <td align="center">{if condition="$cb['brand_name']"} {$cb.brand_name} {else /} 暂无关联品牌 {/if}</td>
+                                    <td align="center">{if condition="$cb['pro_img']"} <img src="/uploads/{$cb.pro_img}" height="30"> {else /} 暂无推广图 {/if}</td>
+                                    <td><a href="{$cb.pro_url}" target="_blank">{$cb.pro_url}</a></td>
+                                    <td align="center">
+                                        {$cb.cate_name}
+                                    </td>
+                                    <td align="center">
+                                        <a href="/admin/category_brands/{$cb.id}/edit" class="btn btn-primary btn-sm shiny">
+                                            <i class="fa fa-edit"></i> 编辑
+                                        </a>
+                                        <a href="#" onClick="disp_confirm('{$cb["id"]}')" class="btn btn-danger btn-sm shiny" >
+                                        <i class="fa fa-trash-o"></i> 删除
+                                        </a>
+                                    </td>
+                                </tr>
+                                {/volist}
+                                </tbody>
+                            </table>
+                        </div>
+                        {volist name="categoryBrands" id="categoryBrand"}
+                        <form style="display: none" id="deleteForm{$categoryBrand['id']}" action="/admin/category_brands/{$categoryBrand['id']}" method="post">
+                            <input type="hidden" name="_method" value="delete" />
+                            </a>
+                        </form>
+                        {/volist}
+
+                        <div style="padding-top:10px; text-align:right;">
+                            {$categoryBrands|raw}
+                        </div>
+                        <div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <!-- /Page Body -->
+</div>
+
+{/block}

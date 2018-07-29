@@ -1,0 +1,93 @@
+{extend name="common/app" /}
+
+{block name="title"}文章列表{/block}
+
+{block name="content"}
+<div class="page-content">
+    <!-- Page Breadcrumb -->
+    <div class="page-breadcrumbs">
+        <ul class="breadcrumb">
+            <li>
+                <a href="{:url('Index/index')}">系统</a>
+            </li>
+            <li class="active">文章管理</li>
+        </ul>
+    </div>
+    <!-- /Page Breadcrumb -->
+
+    <!-- Page Body -->
+    <div class="page-body">
+
+        <button type="button" tooltip="添加文章" class="btn btn-sm btn-azure btn-addon" onClick="javascript:window.location.href = '/admin/article/create'"> <i class="fa fa-plus"></i> Add
+        </button>
+        <div class="row">
+            <div class="col-lg-12 col-sm-12 col-xs-12">
+                <div class="widget">
+                    <div class="widget-body">
+                        <div class="flip-scroll">
+                            <table class="table table-bordered table-hover">
+                                <thead class="">
+                                <tr>
+                                    <th class="text-center" width="6%">ID</th>
+                                    <th>标题</th>
+                                    <th class="text-center" width="12%">缩略图</th>
+                                    <th class="text-center" width="12%">所属栏目</th>
+                                    <th class="text-center" width="6%">跳转</th>
+                                    <th class="text-center" width="6%">置顶</th>
+                                    <th class="text-center" width="6%">显示状态</th>
+                                    <th class="text-center" width="10%">发布时间</th>
+                                    <th class="text-center" width="17%">操作</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {volist name="articles" id="art"}
+                                <tr>
+                                    <td align="center">{$art.id}</td>
+                                    <td>{:cut_str($art['title'],10)}</td>
+                                    <td align="center">
+                                        {if condition="$art['thumb'] neq '' "}
+                                        <img height="30" src="{$art.thumb}">
+                                        {else/}
+                                        暂无缩略图
+                                        {/if}
+                                    </td>
+                                    <td align="center">{$art->cate->cate_name}</td>
+                                    <td align="center">{if condition="$art['link_url'] neq ''"} 是 {else/} 否 {/if}</td>
+                                    <td align="center">{if condition="$art['show_top'] eq 1"} 是 {else/} 否 {/if}</td>
+                                    <td align="center">{if condition="$art['show_status'] eq 1"} 是 {else/} 否 {/if}</td>
+                                    <td align="center">{$art->addtime}</td>
+                                    <td align="center">
+                                        <a href="/admin/article/{$art['id']}/edit" class="btn btn-primary btn-sm shiny">
+                                            <i class="fa fa-edit"></i> 编辑
+                                        </a>
+
+                                        <form style="display: inline-block" id="deleteForm{$art['id']}" action="/admin/article/{$art['id']}" method="post">
+                                            <input type="hidden" name="_method" value="delete" />
+                                            <a href="#" onClick="disp_confirm('{$art["id"]}')" class="btn btn-danger btn-sm shiny" >
+                                            <i class="fa fa-trash-o"></i> 删除
+                                            </a>
+                                        </form>
+
+
+                                    </td>
+                                </tr>
+                                {/volist}
+                                </tbody>
+                            </table>
+                        </div>
+                        <div style="padding-top:10px; text-align:right;">
+                            <!-- 分页 -->
+                            {$articles|raw}
+                        </div>
+                        <div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <!-- /Page Body -->
+</div>
+
+{/block}

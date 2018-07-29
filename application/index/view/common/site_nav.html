@@ -1,0 +1,41 @@
+<div class="site-nav" id="site-nav">
+    <div class="w w1200">
+        <div class="fl">
+            <div class="city-choice" id="city-choice" data-ectype="dorpdown">
+
+                <div class="dorpdown-layer">
+                    <div class="ui-areamini-content-wrap" id="ui-content-wrap">
+
+                        <div class="scrollBody" id="scrollBody">
+                            <div class="all-list" id="scrollMap">
+
+                            </div>
+                            <div class="scrollBar" id="scrollBar">
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="txt-info" id="ECS_MEMBERZONE">
+                {if condition="$is_login"}
+                <span>您好 &nbsp;<a href="/me/{$Think.session.user.id}">{$Think.session.user.username}</a></span>
+                <span>，欢迎来到&nbsp;<a alt="首页" title="首页" href="/">avrilko商城</a></span>
+                <span>[<a href="/logout">退出</a>]</span>
+                {else /}
+                <a href="/login" class="link-login red">请登录</a>
+                <a href="/register" class="link-regist">免费注册</a>
+                {/if}
+
+            </div>
+        </div>
+        <ul class="quick-menu fr">
+            {volist name="navData.top" id="vo"}
+            <li>
+                <div class="dt"><a {if condition="$vo['open'] eq 1 "} target="_blank" {/if} href="{$vo.nav_url}">{$vo.nav_name}</a></div>
+            </li>
+            {/volist}
+        </ul>
+    </div>
+</div>
