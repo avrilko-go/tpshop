@@ -29,4 +29,5 @@ class Test {
 }
 
 Test::send('体力');
+echo 111;die;
 
